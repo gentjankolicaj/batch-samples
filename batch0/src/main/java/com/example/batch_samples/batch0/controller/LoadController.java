@@ -1,5 +1,6 @@
 package com.example.batch_samples.batch0.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
@@ -15,8 +16,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/load")
+@Slf4j
 public class LoadController {
-
     private final JobLauncher jobLauncher;
     private final Job job;
 
@@ -28,7 +29,6 @@ public class LoadController {
 
     @GetMapping
     public BatchStatus load() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
-
         Map<String, JobParameter> parameterMap = new HashMap<>();
         parameterMap.put("time", new JobParameter(System.currentTimeMillis()));
         parameterMap.put("name", new JobParameter("Gentjan Kolicaj"));
@@ -36,15 +36,12 @@ public class LoadController {
         JobParameters jobParameters = new JobParameters(parameterMap);
         JobExecution jobExecution = jobLauncher.run(job, jobParameters);
 
-        System.out.println("JobExecution : " + jobExecution.getStatus());
-
-        System.out.println("Batch is running ");
+        log.info("JobExecution : " + jobExecution.getStatus());
+        log.info("Batch is running ");
         while (jobExecution.isRunning()) {
-            System.out.print(".");
+            log.info(".");
         }
-
         return jobExecution.getStatus();
-
     }
 
 

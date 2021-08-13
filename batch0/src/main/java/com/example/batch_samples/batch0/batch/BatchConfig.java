@@ -30,7 +30,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 @EnableBatchProcessing
 public class BatchConfig {
 
-
     @Bean
     public Job getJob(JobBuilderFactory jobBuilderFactory, StepBuilderFactory stepBuilderFactory,
                       ItemReader<User> itemReader,
@@ -85,14 +84,12 @@ public class BatchConfig {
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
         flatFileItemReader.setLineMapper(getLineMapper());
-
         return flatFileItemReader;
     }
 
 
     public LineMapper<User> getLineMapper() {
         DefaultLineMapper<User> defaultLineMapper = new DefaultLineMapper<>();
-
         DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
         delimitedLineTokenizer.setDelimiter(",");
         delimitedLineTokenizer.setStrict(false);
@@ -100,7 +97,6 @@ public class BatchConfig {
 
         BeanWrapperFieldSetMapper<User> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
         fieldSetMapper.setTargetType(User.class);
-
 
         defaultLineMapper.setLineTokenizer(delimitedLineTokenizer);
         defaultLineMapper.setFieldSetMapper(fieldSetMapper);

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Component
 public class CustomItemWriter implements ItemWriter<User> {
-
     private final UserRepository userRepository;
 
     @Autowired
@@ -20,7 +19,6 @@ public class CustomItemWriter implements ItemWriter<User> {
 
     @Override
     public void write(List<? extends User> list) throws Exception {
-
         userRepository.saveAll(list);
     }
 

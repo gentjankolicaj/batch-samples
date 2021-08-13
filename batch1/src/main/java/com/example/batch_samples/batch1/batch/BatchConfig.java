@@ -25,7 +25,6 @@ import java.util.List;
 @EnableBatchProcessing
 public class BatchConfig {
 
-
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -34,7 +33,6 @@ public class BatchConfig {
         this.jobBuilderFactory = jobBuilderFactory;
         this.stepBuilderFactory = stepBuilderFactory;
     }
-
 
     @Bean
     public Job sequentialStepsJob() {
@@ -47,7 +45,6 @@ public class BatchConfig {
 
     @Bean
     public Job parallelStepsJob() {
-
         Flow secondFlow = new FlowBuilder<Flow>("Second-flow")
                 .start(step2())
                 .build();
@@ -106,6 +103,7 @@ public class BatchConfig {
         };
     }
 
+
     @Bean
     public ItemReader<Transaction> getReader2() {
         return new ItemReader<Transaction>() {
@@ -127,7 +125,6 @@ public class BatchConfig {
         };
     }
 
-
     @Bean
     public ItemProcessor<Transaction, Transaction> getItemProcessor() {
         return (transaction) -> {
@@ -140,7 +137,6 @@ public class BatchConfig {
     @Bean
     public AsyncItemProcessor<Transaction, Transaction> getAsyncItemProcessor() {
         AsyncItemProcessor<Transaction, Transaction> asyncItemProcessor = new AsyncItemProcessor<>();
-
         asyncItemProcessor.setDelegate(getItemProcessor());
         asyncItemProcessor.setTaskExecutor(new SimpleAsyncTaskExecutor());
         return asyncItemProcessor;
@@ -149,7 +145,6 @@ public class BatchConfig {
     @Bean
     public AsyncItemWriter<Transaction> getAsyncItemWriter() {
         AsyncItemWriter<Transaction> writer = new AsyncItemWriter<>();
-
         writer.setDelegate(null);
         return writer;
     }
